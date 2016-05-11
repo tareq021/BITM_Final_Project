@@ -1,0 +1,312 @@
+﻿@model SaveEmployee.Models.ViewResult
+@*@model IEnumerable<SaveEmployee.Models.ViewResult>*@
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="sidebar">
+        <ul>
+            <li><a href="../Departments/Create">Save Department</a></li>
+            <li><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+            <li><a href="../Courses/Create">Save Course</a></li>
+            <li><a href="../Teachers/Create">Save Teacher</a></li>
+            <li><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+            <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+            <li><a href="../Students/Create">Register Student</a></li>
+            <li><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+            <li><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></li>
+            <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+            <li><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+            <li class="corners"><a href="../ViewResult/Create">View Result</a></li>
+            <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+            <li><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+        </ul>
+    </div>
+
+    <div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+        <div class="container body-content">
+            <br />
+            <div class="form-horizontal">
+                <h4>View Result</h4>
+                <hr />
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RegNo, new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.RegNo, new SelectList(ViewBag.RegNo, "Value", "Text"), "Select Student Reg.No.", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control", @style = "text-align:center;font-weight: bold; ", @id = "Name", disabled = "true" })
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "form-control", @style = "text-align:center;font-weight: bold; ", disabled = "true" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Department, new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Department, htmlAttributes: new { @class = "form-control", @style = "text-align:center;font-weight: bold; ", @id = "Department", disabled = "true" })
+                        @Html.ValidationMessageFor(model => model.Department)
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class=" col-sm-5">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="submit" value="Make PDF" class="btn btn-default" style="width:100px; height:30px" />
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <table class="table" id="courseInfo" style="border:1px solid gray">
+                    <tr style="background:#f3f3f3">
+                        <th style="text-align:center">
+                            @Html.DisplayNameFor(model => model.CourseCode)
+                        </th>
+                        <th style="text-align:center">
+                            @Html.DisplayNameFor(model => model.CourseName)
+                        </th>
+                        <th style="text-align:center">
+                            @Html.DisplayNameFor(model => model.Grade)
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #cccccc; text-align: center;">
+                            <p id="CourseCode"></p>
+                        </td>
+                        <td style="border: 1px solid #cccccc; text-align: center;">
+                            <p id="CourseName"></p>
+                        </td>
+                        <td style="border: 1px solid #cccccc; text-align: center;">
+                            <p id="Grade"></p>
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@*name*@
+<script language="javascript">
+    $(document).ready(function () {
+
+        $("#RegNo").change(function () {
+            var regNo = $("#RegNo").val();
+            if (regNo != null) {
+                var name = $("#Name");
+                name.empty();
+
+                $.ajax({
+                    context: this,
+                    url: "@Url.Action("GetName", "ViewResult")",
+                    type: "GET",
+                    dataType: "json",
+                    data: { regNo: regNo },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        $("#Name").val(data);
+                    },
+                    error: function () {
+                        alert("Error int GetTeachers!");
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+
+@*email*@
+<script language="javascript">
+    $(document).ready(function () {
+
+        $("#RegNo").change(function () {
+            var regNo = $("#RegNo").val();
+            if (regNo != null) {
+                var name = $("#Email");
+                name.empty();
+
+                $.ajax({
+                    context: this,
+                    url: "@Url.Action("GetEmail", "ViewResult")",
+                    type: "GET",
+                    dataType: "json",
+                    data: { regNo: regNo },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        $("#Email").val(data);
+                    },
+                    error: function () {
+                        alert("Error int GetTeachers!");
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+
+@*department*@
+<script language="javascript">
+    $(document).ready(function () {
+
+        $("#RegNo").change(function () {
+            var regNo = $("#RegNo").val();
+            if (regNo != null) {
+                var name = $("#Department");
+                name.empty();
+
+                $.ajax({
+                    context: this,
+                    url: "@Url.Action("GetDepartment", "ViewResult")",
+                    type: "GET",
+                    dataType: "json",
+                    data: { regNo: regNo },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        $("#Department").val(data);
+                    },
+                    error: function () {
+                        alert("Error int GetTeachers!");
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+
+@* course Information *@
+<script language="javascript">
+    $(document).ready(function () {
+
+        $("#RegNo").change(function () {
+            var regNo = $("#RegNo").val();
+            if (regNo != null) {
+                var code = $("#CourseCode");
+                var name = $("#CourseName");
+                var grade = $("#Grade");
+                code.empty();
+                name.empty();
+                grade.empty();
+
+                $.ajax({
+                    context: this,
+                    url: "@Url.Action("GetCourseInfo", "ViewResult")",
+                    type: "GET",
+                    dataType: "json",
+                    data: { regNo: regNo },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        $.each(data, function (i, val) {
+                            code.append(
+                                 $("<option></option>").text(val.CourseCode)
+                            );
+                            name.append(
+                                 $("<option></option>").text(val.CourseName)
+                            );
+                            grade.append(
+                                $("<option></option>").text(val.Grade)
+                            );
+                        });
+
+                    },
+                    error: function () {
+                        alert("Error in Get Course Information!");
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+@* PDF writer *@
+@*<script language="javascript">
+        $(document).ready(function () {
+
+            $("#RegNo").change(function () {
+                var regNo = $("#RegNo").val();
+                if (regNo != null) {
+                    var crsInfo = $("#courseInfo");
+                    crsInfo.empty();
+
+
+                    //var code = $("#CourseCode");
+                    //var name = $("#CourseName");
+                    //var grade = $("#Grade");
+                    //code.empty();
+                    //name.empty();
+                    //grade.empty();
+
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetPDF", "ViewResult")",
+                        type: "POST",
+                        dataType: "json",
+                        data: { regNo: regNo },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $.each(data, function (i, val) {
+                                crsInfo.append(
+                                     $("<option></option>").text(val.CourseCode)
+                                );
+                                name.append(
+                                     $("<option></option>").text(val.CourseName)
+                                );
+                                grade.append(
+                                    $("<option></option>").text(val.Grade)
+                                );
+                            });
+
+                        },
+                        error: function () {
+                            alert("Error in Get Course Information!");
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>*@

@@ -1,0 +1,241 @@
+﻿@model UniversityApplication.Models.StudentResult
+
+@{
+    ViewBag.Title = "SaveResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="../Departments/Create">Save Department</a></li>
+            <li><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+            <li><a href="../Courses/Create">Save Course</a></li>
+            <li><a href="../Teachers/Create">Save Teacher</a></li>
+            <li><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+            <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+            <li><a href="../Students/Create">Register Student</a></li>
+            <li><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+            <li><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></li>
+            <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+            <li class="corners"><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+            <li><a href="../ViewResult/Create">View Result</a></li>
+            <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+            <li><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+        </ul>
+    </div>
+
+    <div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+        <div class="container body-content">
+            <br />
+            <div class="form-horizontal">
+                <h4>Save Student Result</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentResultRegNo, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.StudentResultRegNo, new SelectList(ViewBag.Students, "Value", "Text"), "Select Student", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.StudentResultRegNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentResultName, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.StudentResultName, new { @id = "StudentResultName", @class = "col-md-2 labelStyle" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentResultEmail, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.StudentResultEmail, new { @id = "StudentResultEmail", @class = "col-md-2 labelStyle" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentResultDepartmentCode, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.StudentResultDepartmentCode, new { @id = "StudentResultDepartmentCode", @class = "col-md-2 labelStyle" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentResultCourse, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.StudentResultCourse, new SelectList(ViewBag.CourseCode, "Value", "Text"), "Select Course", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.StudentResultCourse, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StudentResultGrade, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.StudentResultGrade, new SelectList(ViewBag.Result, "Value", "Text"), "Select Grade", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.StudentResultGrade, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class=" col-sm-5">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="submit" value="Save" class="btn btn-default" style="width:100px; height:30px" />
+                    </div>
+                </div>
+
+
+                @if (ViewBag.Status == "Success")
+                {
+                    <div class="alert alert-success" id="hideThis">
+                        <p>@ViewBag.Message</p>
+                    </div>
+                }
+                else if (ViewBag.Status == "Error")
+                {
+                    <div class="alert alert-danger" id="hideThis">
+                        <p> @ViewBag.Message</p>
+                    </div>
+                }
+
+            </div>
+            
+        </div>
+    </div>
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#StudentResultRegNo").change(function () {
+                // this will call when Department Dropdown select change
+                var studentRegNo = $("#StudentResultRegNo").val();
+                if (studentRegNo != null) {
+
+
+                    var ddStudentName = $('#StudentResultName');
+                    ddStudentName.empty();
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetStudentName", "StudentResults")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { studentRegNo: studentRegNo },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $('#StudentResultName').text(data);
+                        },
+                        error: function () {
+                            alert("error StudentResultName !");
+                        }
+
+                    });
+
+
+                    var ddStudentEmail = $('#StudentResultEmail');
+                    ddStudentName.empty();
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetStudentEmail", "StudentResults")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { studentRegNo: studentRegNo },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $('#StudentResultEmail').text(data);
+                        },
+                        error: function () {
+                            alert("error StudentResultEmail !");
+                        }
+
+                    });
+
+
+                    var ddStudentDepartment = $('#StudentResultDepartmentCode');
+                    ddStudentDepartment.empty();
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetStudentDepartment", "StudentResults")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { studentRegNo: studentRegNo },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $('#StudentResultDepartmentCode').text(data);
+                        },
+                        error: function () {
+                            alert("error StudentResultDepartmentCode !");
+                        }
+
+                    });
+
+                }
+            });
+
+
+        });
+
+    </script>
+
+
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            $("#StudentResultRegNo").change(function () {
+                // this will call when Department Dropdown select change
+                var departmentName = $("#StudentResultRegNo").val();
+                if (departmentName != null) {
+
+                    var ddCourseCode = $("#StudentResultCourse");
+                    ddCourseCode.empty(); // this line is for clear all items from CourseCode dropdown
+                    ddCourseCode.append($("<option></option").val("").html("Select Course"));
+
+                    // Here I will call Controller Action via Jquery to load CourseCode for selected Department
+                    $.ajax({
+                        url: "@Url.Action("GetCourseCode", "StudentResults")",
+                        type: "GET",
+                        data: { departmentName: departmentName },
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, val) {
+                                ddCourseCode.append(
+                                    $("<option></option>").val(val.CourseStudentCourse).html(val.CourseStudentCourse)
+                                );
+                            });
+                        },
+                        error: function () {
+                            alert("Error GetCourseCode!");
+                        }
+                    });
+
+
+                }
+            });
+
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".hideOnClick").click(function () {
+                $("#hideThis").hide();
+            });
+        });
+    </script>
+}

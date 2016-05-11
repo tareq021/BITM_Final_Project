@@ -1,0 +1,173 @@
+﻿@model UniversityApplication.Models.Classroom
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="sidebar">
+        <ul>
+            <li><a href="../Departments/Create">Save Department</a></li>
+            <li><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+            <li><a href="../Courses/Create">Save Course</a></li>
+            <li><a href="../Teachers/Create">Save Teacher</a></li>
+            <li><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+            <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+            <li><a href="../Students/Create">Register Student</a></li>
+            <li class="corners"><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+            <li><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></li>
+            <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+            <li><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+            <li><a href="../ViewResult/Create">View Result</a></li>
+            <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+            <li><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+        </ul>
+    </div>
+
+    <div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+        <div class="container body-content">
+            <br />
+            <div class="form-horizontal">
+                <h4>Allocate Classrooms</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassRoomDepartmentCode, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ClassRoomDepartmentCode, new SelectList(ViewBag.Departments, "Value", "Text"), "Select Department", new { @class = "form-control hideOnClick" })
+                        @*@Html.DropDownListFor(model => model.ClassRoomDepartmentCode, @ViewBag.Departments as SelectList, "Select Department", new {@class = "form-control"})*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassRoomCourseCode, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ClassRoomCourseCode, new SelectList(ViewBag.CourseCode, "Value", "Text"), "Select Course", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.ClassRoomCourseCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassRoomRoomNo, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ClassRoomRoomNo, new SelectList(ViewBag.Room, "Value", "Text"), "Select Room", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.ClassRoomRoomNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassRoomWeekDay, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ClassRoomWeekDay, new SelectList(ViewBag.Weekday, "Value", "Text"), "Select Weekday", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.ClassRoomWeekDay, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassRoomStartsAt, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ClassRoomStartsAt, new { htmlAttributes = new { @class = "form-control hideOnClick" } })
+                        @*@Html.RadioButtonFor(model => model.ClassRoomStartsAt, "AM")AM
+                            @Html.RadioButtonFor(model => model.ClassRoomStartsAt, "PM")PM*@
+                        @Html.ValidationMessageFor(model => model.ClassRoomStartsAt, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClassRoomEndssAt, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ClassRoomEndssAt, new { htmlAttributes = new { @class = "form-control hideOnClick" } })
+                        @*@Html.RadioButtonFor(model => model.ClassRoomEndssAt, "AM")AM
+                            @Html.RadioButtonFor(model => model.ClassRoomEndssAt, "PM")PM*@
+                        @Html.ValidationMessageFor(model => model.ClassRoomEndssAt, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class=" col-sm-5">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="submit" value="Allocate" class="btn btn-default" style="width:100px; height:30px" />
+                    </div>
+                </div>
+
+
+                @if (ViewBag.Status == "Success")
+                {
+                    <div class="alert alert-success" id="hideThis">
+                        <p>@ViewBag.Message</p>
+                    </div>
+                }
+                else if (ViewBag.Status == "Error")
+                {
+                    <div class="alert alert-danger" id="hideThis">
+                        <p> @ViewBag.Message</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script language="javascript">
+        $(document).ready(function () {
+
+            $("#ClassRoomDepartmentCode").change(function () {
+                // this will call when Department Dropdown select change
+                var departmentName = $("#ClassRoomDepartmentCode").val();
+                if (departmentName != null) {
+
+
+                    var ddCourseCode = $("#ClassRoomCourseCode");
+                    ddCourseCode.empty(); // this line is for clear all items from CourseCode dropdown
+                    ddCourseCode.append($("<option></option").val("").html("Select Course"));
+
+                    // Here I will call Controller Action via Jquery to load CourseCode for selected Department
+                    $.ajax({
+                        url: "@Url.Action("GetCourseCode", "Classrooms")",
+                        type: "GET",
+                        data: { departmentName: departmentName },
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, val) {
+                                ddCourseCode.append(
+                                    $("<option></option>").val(val.CourseCode).html(val.CourseCode)
+                                );
+                            });
+                        },
+                        error: function () {
+                            alert("Error GetCourseCode!");
+                        }
+                    });
+
+
+                }
+            });
+
+
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".hideOnClick").click(function () {
+                $("#hideThis").hide();
+            });
+        });
+    </script>
+}

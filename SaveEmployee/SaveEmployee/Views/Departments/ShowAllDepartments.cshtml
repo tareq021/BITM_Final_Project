@@ -1,0 +1,64 @@
+﻿@model IEnumerable<UniversityApplication.Models.Department>
+
+@{
+    ViewBag.Title = "Departments";
+}
+<div class="sidebar">
+    <ul>
+        <li><a href="../Departments/Create">Save Department</a></li>
+        <li class="corners"><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+        <li><a href="../Courses/Create">Save Course</a></li>
+        <li><a href="../Teachers/Create">Save Teacher</a></li>
+        <li><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+        <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+        <li><a href="../Students/Create">Register Student</a></li>
+        <li><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+        <li><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></li>
+        <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+        <li><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+        <li><a href="../ViewResult/Create">View Result</a></li>
+        <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+        <li><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+    </ul>
+</div>
+
+<div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+    <div class="container body-content">
+        <br />
+        <h4>View All Departments</h4>
+
+        <hr />
+        <table class="table" style="border:1px solid gray">
+            <tr style="background:#f3f3f3">
+                <th style="text-align:center">
+                    @Html.DisplayNameFor(model => model.DepartmentCode)
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayNameFor(model => model.DepartmentName)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td style="border: 1px solid #cccccc; text-align: center;">
+                        @Html.DisplayFor(modelItem => item.DepartmentCode)
+                    </td>
+
+                    <td style="border: 1px solid #cccccc; text-align: center">
+
+                        @Html.DisplayFor(modelItem => item.DepartmentName)
+
+                    </td>
+                   
+                </tr>
+            }
+
+        </table>
+        <br />
+        <br /> <p>
+            @Html.ActionLink("Create New Deparment", "Create")
+        </p>
+    </div>
+</div>

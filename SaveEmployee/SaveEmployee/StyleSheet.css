@@ -1,0 +1,354 @@
+﻿.fieldsetStyle {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: marker;
+    border: 1px solid #e6e6e6;
+    box-shadow: inset;
+    width: 100%;
+    height: inherit;
+    border-radius: 6px;
+}
+
+.ErrorLAbel {
+    font-family: 'Microsoft JhengHei UI';
+    font-size: 15px;
+}
+
+.ErrorPanel {
+    padding: 15px 15px 15px 15px;
+    width: inherit;
+    height: inherit;
+    line-height: inherit;
+    vertical-align: middle;
+    border-radius: 8px;
+}
+
+
+.GaneralPanel{
+    width: inherit;
+    height: inherit;
+    border-radius: 8px;
+}
+
+.requirementTextBoxStyle {
+    width: 100% /*320px*/;
+    height: 70px;
+    background-color: white;
+    color: #4d4d4d;
+    Border: 1px solid #bfbfbf;
+    border-radius: 8px;
+    font-size: 14.08px;
+}
+
+.HandImageStyle{
+    width:30px;
+    height:30px;
+}
+
+/*Master-sectio-Exam*/
+.textBoxStyle {
+    text-align:center;
+    width: 100% /*320px*/;
+    height: 30px;
+    background-color: white;
+    color: #4d4d4d;
+    Border: 1px solid #bfbfbf;
+    /*border-radius: 8px;*/
+    font-size: 14.08px;
+}
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /*background-color: #b3d9ff;*/
+}
+
+li {
+    border-right: 1px solid #bbb;
+}
+
+    li:last-child {
+        border-right: none;
+    }
+
+    li a {
+        display: block;
+        color: white /*#8c8c8c*/;
+        text-align: left;
+        padding: 0px;
+        text-decoration: none;
+    }
+
+        li a:hover:not(.active) {
+            background-color: #4d4d4d;
+            color: #0099ff;
+            border: 1px solid white;
+            transition: border 0.9s;
+        }
+
+
+.active {
+    background-color: #4CAF50;
+    color: #0099ff;
+}
+
+
+
+
+
+
+.center {
+    padding: 0px;
+    position: relative;
+    margin: 0;
+    width: inherit;
+    height: inherit;
+    background: white /*#e6e6e6*/; /* #e6e6ff;/*#f2f2d9;/*#f2f2f2;*/
+    top: 0px;
+    z-index: 0;
+}
+
+.centers {
+    padding: 0px;
+    position: relative;
+    margin: auto;
+    width: 50%;
+    height: inherit;
+    /*background: #ffffb3;*/
+    top: -57px;
+    left: 0px;
+    z-index: 0;
+}
+
+.fix {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    background-color: #333333;
+    color: #f1f1f1;
+    width: 100%;
+    height: 55px;
+    padding: 0;
+    letter-spacing: 1px;
+    left: 0px;
+}
+
+
+.divs {
+    height: 88px;
+    background-color: gray;
+    color: #0099ff;
+    position: relative;
+    -webkit-animation-name: example; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    animation-name: example;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    text-align: center;
+    padding-left: 0cm;
+    padding-right: 0cm;
+    width: 100%;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+
+/* Chrome, Safari, Opera */
+
+/* Standard syntax */
+@keyframes example {
+    0% {
+        background-color: gray;
+        left: 0px;
+        top: 0px;
+    }
+
+    25% {
+        background-color: #1a1a1a;
+        left: 0px;
+        top: 0px;
+    }
+
+    50% {
+        background-color: #333333;
+        left: 0px;
+        top: 0px;
+    }
+
+    75% {
+        background-color: #000000;
+        left: 0px;
+        top: 0px;
+    }
+
+    100% {
+        background-color: #808080;
+        left: 0px;
+        top: 0px;
+    }
+}
+
+.auto-style18 {
+    height: 40px;
+    width: 65px;
+}
+
+.auto-style19 {
+    width: 115px;
+}
+
+label {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+    label:hover:not(.active) {
+        background-color: #4CAF50;
+    }
+
+
+
+.auto-style22 {
+    width: 817px;
+}
+
+/*........................................................*/
+
+.sidebar {
+    position: fixed;
+    width: 19%;
+    height: 100%;
+    background: #4d4d4d;
+    color: #fff;
+    top: 56px;
+    outline: 1px solid #2a2a2a;
+}
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar h2 {
+        text-align: center;
+        margin: 0;
+        padding: 10px;
+        background: #2a2a2a;
+    }
+
+    .sidebar li {
+        outline: 1px solid #2a2a2a;
+        transition: all 0.3s;
+    }
+
+        .sidebar li:hover {
+            background: #333333;
+            border-left: 5px solid #eee;
+        }
+
+    .sidebar a {
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        padding: 15px;
+    }
+
+.corners {
+    background-color: #0099ff;
+    color: white;
+    border-left: 5px solid #eee;
+    border-right: 5px solid #eee;
+}
+
+
+
+
+.labelStyle {
+    font-family: 'Microsoft JhengHei UI';
+    font-size: 13.7px;
+    color: #333333;
+    background:white;
+}
+
+.infoLabelStyle {
+    font-family: 'Arial';
+    font-size: 13.9px;
+    color: #4d4d4d;
+}
+
+.labelStylePanel {
+    font-family: 'Microsoft JhengHei UI';
+    font-size: 13.5px;
+    color: #333333;
+}
+
+
+/*admin data backup*/
+.leftwidth {
+    width: 16%;
+    text-align: right;
+}
+
+.midwidth {
+    width: 4%;
+}
+
+.rightwidth {
+    width: 80%;
+    text-align: left;
+}
+
+
+
+.btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.btn {
+    /*float: right;*/
+    font-size: 15px;
+    background-color: #555555;
+    color: #ffffff;
+    border: 1px solid #555555;
+    border-radius: 6px;
+    padding: 0 15px;
+    line-height: 1.45;
+    width: auto;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+
+/*extra style*/
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 100%;
+  border-top: 16px solid #3498db;
+  width: 12px;
+  height: 12px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

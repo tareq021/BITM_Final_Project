@@ -1,0 +1,130 @@
+﻿@model UniversityApplication.Models.Course
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="sidebar">
+        <ul>
+            <li><a href="../Departments/Create">Save Department</a></li>
+            <li><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+            <li class="corners"><a href="../Courses/Create">Save Course</a></li>
+            <li><a href="../Teachers/Create">Save Teacher</a></li>
+            <li><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+            <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+            <li><a href="../Students/Create">Register Student</a></li>
+            <li><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+            <li><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></li>
+            <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+            <li><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+            <li><a href="../ViewResult/Create">View Result</a></li>
+            <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+            <li><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+        </ul>
+    </div>
+
+    <div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+        <div class="container body-content">
+            <br />
+
+            <div class="form-horizontal">
+                <h4>Save Course</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseCode, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { @class = "form-control hideOnClick" } })
+                        @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control hideOnClick" } })
+                        @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseCredit, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CourseCredit, new { htmlAttributes = new { @class = "form-control hideOnClick" } })
+                        @Html.ValidationMessageFor(model => model.CourseCredit, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseDescription, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CourseDescription, new { htmlAttributes = new { @class = "form-control hideOnClick" } })
+                        @Html.ValidationMessageFor(model => model.CourseDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseDepartmentCode, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.CourseDepartmentCode, new SelectList(ViewBag.Departments, "Value", "Text"), "Select Department", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.CourseDepartmentCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseSemester, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+
+                        @Html.DropDownListFor(model => model.CourseSemester, new SelectList(ViewBag.Semesters, "Value", "Text"), "Select Semester", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.CourseSemester, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class=" col-sm-5">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="submit" value="Save" class="btn btn-default" style="width:100px; height:30px" />
+                    </div>
+                </div>
+
+                @if (ViewBag.Status == "Success")
+                {
+                    <div class="alert alert-success" id="hideThis">
+                        <p>@ViewBag.Message</p>
+                    </div>
+                }
+                else if (ViewBag.Status == "Error")
+                {
+                    <div class="alert alert-danger" id="hideThis">
+                        <p> @ViewBag.Message</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".hideOnClick").click(function () {
+                $("#hideThis").hide();
+            });
+        });
+    </script>
+}

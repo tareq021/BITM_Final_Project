@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Unallocate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="sidebar">
+    <ul>
+        <li><a href="../Departments/Create">Save Department</a></li>
+        <li><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+        <li><a href="../Courses/Create">Save Course</a></li>
+        <li><a href="../Teachers/Create">Save Teacher</a></li>
+        <li><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+        <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+        <li><a href="../Students/Create">Register Student</a></li>
+        <li><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+        <li><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></li>
+        <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+        <li><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+        <li><a href="../ViewResult/Create">View Result</a></li>
+        <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+        <li class="corners"><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+    </ul>
+</div>
+
+<div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+    <div class="container body-content">
+        <br />
+        <div class="form-horizontal">
+            <h4>Unallocate All Classrooms</h4>
+            <hr /><div class="form-group">
+                <div class=" col-sm-5">
+                </div>
+                <div class="col-sm-5">
+                    <input type="submit" value="Unallocate Rooms" id="unassignButton" class="btn btn-info" style=" height:40px" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/dist/jquery-confirm.min.js"></script>
+    <link href="~/dist/jquery-confirm.min.css" rel="stylesheet" />
+
+
+
+    <script language="javascript">
+        $(document).ready(function () {
+            $(unassignButton).click(function () {
+
+                $.confirm({
+                    theme: 'black',
+                    title: 'Unallocate Rooms',
+                    content: 'Are you sure to unallocate all classrooms info?',
+                    confirmButton: 'Yes',
+                    cancelButton: 'NO',
+                    confirm: function () {
+                        $.ajax({
+                            url: "@Url.Action("Unallocate", "Unassign")",
+                            type: "POST",
+                        });
+
+                        $.alert('Successfully Unallocated !');
+                    },
+                    cancel: function () { }
+                });
+
+                @*var confirmVar = confirm("Are you sure to unassign all courses?");
+
+                if (confirmVar == true) {
+                    $.ajax({
+                        url: "@Url.Action("UnassignCourse", "Unassign")",
+                        type: "POST",
+                    //data: { courseTeacher: [deptCode, tchrMail, creditToTake, remainingCredit, courseCode, crseTchrName, courseCredit] },
+                    //console: log(data),
+                    //dataType: "json",
+                    //success: function (data) {
+
+                    //}
+
+                });
+                }
+
+                else if (confirmVar == false) {
+                    // alert("cancle");
+                }
+                //return false;
+
+                    *@
+
+
+
+            });
+        });
+    </script>
+
+    <script language="javascript">
+        $(document).ready(function () {
+            $(infoLabel).show().delay(3000).fadeOut();
+        });
+    </script>
+}
+

@@ -1,0 +1,180 @@
+﻿@model IEnumerable<UniversityApplication.Models.Student>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="sidebar">
+    <ul>
+        <li><a href="../Departments/Create">Save Department</a></li>
+        <li><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+        <li><a href="../Courses/Create">Save Course</a></li>
+        <li><a href="../Teachers/Create">Save Teacher</a></li>
+        <li><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+        <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+        <li class="corners"><a href="../Students/Create">Register Student</a></li>
+
+        <li><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+        <li><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></li>
+        <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+        <li><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+        <li><a href="../ViewResult/Create">View Result</a></li>
+        <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+        <li><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+    </ul>
+</div>
+
+<div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+
+    <h4>Your Registration Successfully Done.</h4>
+    <hr />
+    <table style="width:40%; ">
+        <tr>
+            <td>
+                <h4>Registration No. :   </h4>
+            </td>
+            <td>
+                @foreach (var item in Model)
+                {
+                    @Html.DisplayFor(modelItem => item.StudentRegNo)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h4>Name :   </h4>
+            </td>
+            <td>
+                @foreach (var item in Model)
+                {
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+
+            <td><h4>Contact No. :   </h4></td>
+            <td>
+                @foreach (var item in Model)
+                {
+                    @Html.DisplayFor(modelItem => item.StudentContact)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td><h4>Address :   </h4></td>
+            <td>
+                @foreach (var item in Model)
+                {
+                    @Html.DisplayFor(modelItem => item.StudentAddress)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td><h4>Department :   </h4></td>
+            <td>
+                @foreach (var item in Model)
+                {
+                    @Html.DisplayFor(modelItem => item.StudentDepartmentCode)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td><h4>Email Address :   </h4></td>
+            <td>
+                @foreach (var item in Model)
+                {
+                    @Html.DisplayFor(modelItem => item.StudentEmail)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td><h4>Registration Date :   </h4></td>
+            <td>
+                @foreach (var item in Model)
+                {
+                    @Html.DisplayFor(modelItem => item.StudeRegDate)
+                }
+            </td>
+        </tr>
+    </table>
+    <br />
+    <p>
+        @Html.ActionLink("Back", "Create")
+    </p>
+
+    <br />
+    <br />
+    <br />
+    @*<table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentRegNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentContact)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentDepartmentCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentEmail)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.StudeRegDate)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentRegNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentContact)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentDepartmentCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudentEmail)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StudeRegDate)
+                    </td>
+
+
+
+
+                </tr>
+            }
+
+        </table>*@
+
+</div>

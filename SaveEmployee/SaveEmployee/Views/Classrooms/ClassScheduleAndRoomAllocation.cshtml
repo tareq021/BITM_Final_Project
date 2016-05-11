@@ -1,0 +1,204 @@
+﻿@model UniversityApplication.Models.Classroom
+
+@{
+    ViewBag.Title = "ClassScheduleAndRoomAllocation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="sidebar">
+    <ul>
+        <li><a href="../Departments/Create">Save Department</a></li>
+        <li ><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+        <li><a href="../Courses/Create">Save Course</a></li>
+        <li><a href="../Teachers/Create">Save Teacher</a></li>
+        <li><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+        <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+        <li><a href="../Students/Create">Register Student</a></li>
+        <li><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+        <li class ="corners"><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></liclass>
+        <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+        <li><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+        <li><a href="../ViewResult/Create">View Result</a></li>
+        <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+        <li><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+    </ul>
+</div>
+
+<div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+    <div class="container body-content">
+        <br />
+        <h4>View Class Schedule and Room Allocation Information</h4>
+
+        <hr />
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ClassRoomDepartmentCode, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.ClassRoomDepartmentCode, @ViewBag.Departments as SelectList, "Select Department", new { @class = "form-control" })
+                </div>
+            </div>
+
+
+            <table class="table" style="border:1px solid gray">
+                <tr style="background:#f3f3f3">
+                    <th style="text-align:center">
+                        @Html.DisplayName("Course Code")
+                        @*@Html.DisplayNameFor(model => model.ClassRoomCourseCode)*@
+                    </th>
+                    <th style="text-align:center">
+                        @Html.DisplayName("Course Name")
+                    </th>
+                    <th style="text-align:center">
+                        @Html.DisplayName("Schedule Information")
+                    </th>
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #cccccc; text-align: center;">
+                        <p id="CourseStaticsCourseCode"></p>
+
+                    </td>
+                    <td style="border: 1px solid #cccccc; text-align: center;">
+                        <p id="CourseStaticsCourseName"></p>
+                    </td>
+                    <td style="border: 1px solid #cccccc; text-align: center;">
+                        <p id="CourseStaticsCourseSemester"></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#ClassRoomDepartmentCode").change(function () {
+                // this will call when Department Dropdown select change
+                var departmentName = $("#ClassRoomDepartmentCode").val();
+                if (departmentName != null) {
+
+                    var ddCredit = $("#CourseStaticsCourseCode");
+
+                    ddCredit.empty(); // this line is for clear all items from Teacher dropdown
+                    // ddCredit.append($("<option></option").val("").html("Select Teacher"));
+
+                    // Here I will call Controller Action via Jquery to load Teacher for selected Department
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetCourseCode", "Classrooms")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { departmentName: departmentName },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $.each(data, function (i, val) {
+                                ddCredit.append(
+                                    $("<option></option>").text(val.CourseCode)
+                                );
+                            });
+
+                        },
+                        error: function () {
+                            alert("error CourseStaticsCourseCode !");
+                        }
+
+                    });
+                }
+            });
+        });
+
+    </script>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#ClassRoomDepartmentCode").change(function () {
+                // this will call when Department Dropdown select change
+                var departmentName = $("#ClassRoomDepartmentCode").val();
+                if (departmentName != null) {
+
+
+                    var ddCredit = $("#CourseStaticsCourseName");
+                    ddCredit.empty(); // this line is for clear all items from Teacher dropdown
+                    // ddCredit.append($("<option></option").val("").html("Select Teacher"));
+
+                    // Here I will call Controller Action via Jquery to load Teacher for selected Department
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetCourseName", "Classrooms")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { departmentName: departmentName },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $.each(data, function (i, val) {
+                                ddCredit.append(
+                                    $("<option></option>").text(val.CourseName)
+                                );
+                            });
+
+                        },
+                        error: function () {
+                            alert("error CourseStaticsCourseName !");
+                        }
+
+                    });
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#ClassRoomDepartmentCode").change(function () {
+                // this will call when Department Dropdown select change
+                var departmentName = $("#ClassRoomDepartmentCode").val();
+                if (departmentName != null) {
+
+
+                    var ddCredit = $("#CourseStaticsCourseSemester");
+                    ddCredit.empty(); // this line is for clear all items from Teacher dropdown
+                    // ddCredit.append($("<option></option").val("").html("Select Teacher"));
+
+                    // Here I will call Controller Action via Jquery to load Teacher for selected Department
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetSchedule", "Classrooms")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { departmentName: departmentName },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $.each(data, function (i, val) {
+                                ddCredit.append(
+                                    $("<option></option>").text(val.CourseSchedule)
+                                );
+                            });
+
+                        },
+                        error: function () {
+                            alert("error CourseStaticsCourseSemester !");
+                        }
+
+                    });
+                }
+            });
+        });
+
+    </script>
+}

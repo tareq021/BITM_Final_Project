@@ -1,0 +1,508 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@model UniversityApplication.Models.CourseTeacher
+
+@{
+    ViewBag.Title = "CourseTeacher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*  @if (ViewBag.comparison == false)
+    {
+        //<input type="submit" value="Assign" class="btn btn-default" id="assignButton" data-toggle="modal" data-target="#myModal" />
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Credit Exceeded</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Course Cresit exceeded your remaining credit.</p>
+                        <p style="color: red">Are you sure to take this Course ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" value="Yes" class="btn btn-default" id="okButton" style="background-color: #00bfff" >
+                        <button type="button" class="btn btn-default" style="background-color: #00bfff" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+    else if (ViewBag.comparison == true)
+    {
+        <input type="submit" value="Assign" class="btn btn-default" id="assignButton" />
+    } *@
+
+@using (Html.BeginForm("AssignCourse", "CourseTeacher", FormMethod.Post, new { id = "assignForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="../Departments/Create">Save Department</a></li>
+            <li><a href="../Departments/ShowAllDepartments">View Departments</a></li>
+            <li><a href="../Courses/Create">Save Course</a></li>
+            <li><a href="../Teachers/Create">Save Teacher</a></li>
+            <li class="corners"><a href="../CourseTeacher/AssignCourse">Course Assign to Teacher</a></li>
+            <li><a href="../CourseStaticss/CourseStatistics">View Course Statics</a></li>
+            <li><a href="../Students/Create">Register Student</a></li>
+            <li><a href="../Classrooms/AllocateClassRoom">Allocate Classrooms</a></li>
+            <li><a href="../Classrooms/ClassScheduleAndRoomAllocation">Class Schedule and Room Allocation</a></li>
+            <li><a href="../CourseStudents/StudentToCourse">Enroll in a Course</a></li>
+            <li><a href="../StudentResults/SaveResult">Save Student Result</a></li>
+            <li><a href="../ViewResult/Create">View Result</a></li>
+            <li><a href="../Unassign/UnassignCourse">Unassign All Courses</a></li>
+            <li><a href="../Unassign/Unallocate">Unallocate All Classrooms</a></li>
+        </ul>
+    </div>
+
+    <div style="background-color: white; padding-left: 25%; width: 80%; height: 100%;">
+        <div class="container body-content">
+            <br />
+            <div class="form-horizontal">
+                <h4>Course Assign To Teacher</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseTeacherDepartmentCode, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @*@Html.DropDownListFor(model => model.CourseTeacherDepartmentCode, @ViewBag.Departments as SelectList, "Select Department", new { @class = "form-control" })*@
+                        @Html.DropDownListFor(model => model.CourseTeacherDepartmentCode, new SelectList(ViewBag.Departments, "Value", "Text"), "Select Department", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.CourseTeacherDepartmentCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseTeacherEmail, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @*@Html.DropDownListFor(model => model.CourseTeacherEmail, @ViewBag.TeachersName as SelectList, "Select Teacher", new { @class = "form-control" })*@
+                        @Html.DropDownListFor(model => model.CourseTeacherEmail, new SelectList(ViewBag.TeachersName, "Value", "Text"), "Select Teacher", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.CourseTeacherEmail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseTeacherCreditToTake, @htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.CourseTeacherCreditToTake, htmlAttributes: new { @class ="col-md-2 labelStyle" , @id = "CourseTeacherCreditToTake" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseTeacherRemainingCredit, @htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.CourseTeacherRemainingCredit, htmlAttributes: new { @class = "col-md-2 labelStyle", @id = "CourseTeacherRemainingCredit" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseTeacherCourseCode, htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.CourseTeacherCourseCode, new SelectList(ViewBag.CourseCode, "Value", "Text"), "Select Course", new { @class = "form-control hideOnClick" })
+                        @Html.ValidationMessageFor(model => model.CourseTeacherCourseCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseTeacherCourseName, @htmlAttributes: new { @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.CourseTeacherCourseName, htmlAttributes: new { @class = "col-md-2 labelStyle", @id = "CourseTeacherCourseName" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CourseTeacherCourseCredit, @htmlAttributes: new {  @class = "col-md-2 labelStyle" })
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.CourseTeacherCourseCredit, htmlAttributes: new { @class = "col-md-2 labelStyle", @id = "CourseTeacherCourseCredit" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class=" col-sm-5">
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="submit" value="Assign" class="btn btn-default" id="assignButton" style="width:100px; height:30px" />
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="text-align: center">
+                                <label style="color: #33cc33" id="infoLabel">@ViewBag.labelMessage</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">
+                                <input type="submit" value="Assign" class="btn btn-default" id="assignButton" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>*@
+
+                @if (ViewBag.Status == "Success")
+                {
+                    <div class="alert alert-success" id="hideThis">
+                        <p>@ViewBag.Message</p>
+                    </div>
+                }
+                else if (ViewBag.Status == "Error")
+                {
+                    <div class="alert alert-danger" id="hideThis">
+                        <p> @ViewBag.Message</p>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/dist/jquery-confirm.min.js"></script>
+    <link href="~/dist/jquery-confirm.min.css" rel="stylesheet" />
+    <script language="javascript">
+        $(document).ready(function () {
+            $(assignButton).click(function () {
+                var deptCode = $("#CourseTeacherDepartmentCode").val();
+                var tchrMail = $("#CourseTeacherEmail").val();
+                var creditToTake = $("#CourseTeacherCreditToTake").text().trim();
+                var remainingCredit = $("#CourseTeacherRemainingCredit").text().trim();
+                var courseCode = $("#CourseTeacherCourseCode").val();
+                var crseTchrName = $("#CourseTeacherCourseName").text().trim();
+                var courseCredit = $("#CourseTeacherCourseCredit").text().trim();
+
+                //var confirmVar = false;
+
+                //alert("1. " + deptCode + " 2. " + tchrMail + " 3. " + creditToTake + " 4. " + remainingCredit + " 5. " + courseCode + " 6. " + crseTchrName + " 7. " + courseCredit);
+
+                if (courseCredit > remainingCredit) {
+
+                    //var confirmVar = jconfirm({
+                    //   theme: 'black',
+                    //   title: 'Course Credit Confirmation',
+                    //   content: 'Are you sure to take this Course ?',
+                    //   confirmButton: 'Yes',
+                    //   cancelButton: 'NO'
+                    //});
+
+
+
+
+                    //$.confirm({
+                    //    theme: 'black',
+                    //    title: 'Course Credit Confirmation',
+                    //    content: 'Are you sure to take this Course ?',
+                    //    confirmButton: 'Yes',
+                    //    cancelButton: 'NO',
+                    //    confirm: function () {
+                    //        confirmVar = true;
+                    //    },
+                    //    cancel: function () {
+                    //        confirmVar = false;
+                    //    }
+                    //});
+
+
+
+
+
+                    var confirmVar = confirm("Are you sure to take this Course ?");
+
+                    if (confirmVar == true) {
+                        // alert("ok");
+
+                        $.ajax({
+                            url: "@Url.Action("AssignCourse", "CourseTeacher")",
+                            type: "POST",
+                            data: { courseTeacher: [deptCode, tchrMail, creditToTake, remainingCredit, courseCode, crseTchrName, courseCredit] },
+                            console: log(data),
+                            dataType: "json",
+                            success: function (data) {
+
+                            }
+
+                        });
+                    }
+                    else if (confirmVar == false) {
+                        // alert("cancle");
+                    }
+                    return false;
+
+
+
+
+
+
+
+                    @*$.confirm({
+                        theme: 'black',
+                        title: 'Course Credit Confirmation',
+                        content: 'Are you sure to take this Course ?',
+                        confirmButton: 'Yes',
+                        cancelButton: 'NO',
+                        confirm: function () {
+                            $.ajax({
+                                url: "@Url.Action("AssignCourse", "CourseTeacher")",
+                                type: "POST",
+                                data: { courseTeacher: [deptCode, tchrMail, creditToTake, remainingCredit, courseCode, crseTchrName, courseCredit] },
+                                console: log(data),
+                                dataType: "json",
+                                success: function (data) { }
+                            });
+                        },
+                        cancel: function () {
+                            //do nothing
+                        }
+                    });*@
+
+
+                }
+
+                else if (courseCredit <= remainingCredit) {
+                    //alert("else if");
+                    $.ajax({
+                        url: "@Url.Action("AssignCourse", "CourseTeacher")",
+                        type: "POST",
+                        data: { courseTeacher: [deptCode, tchrMail, creditToTake, remainingCredit, courseCode, crseTchrName, courseCredit] },
+                        dataType: "json",
+                        success: function (data) { }
+
+                    });
+                }
+
+            });
+        });
+    </script>
+
+
+    @*<script language="javascript">
+            $(document).ready(function () {
+                $(infoLabel).show().delay(2000).fadeOut();
+            });
+        </script>*@
+    <script language="javascript">
+        $(document).ready(function () {
+
+            $("#CourseTeacherDepartmentCode").change(function () {
+                // this will call when Department Dropdown select change
+                var departmentName = $("#CourseTeacherDepartmentCode").val();
+                if (departmentName != null) {
+
+                    var ddTeacher = $("#CourseTeacherEmail");
+                    ddTeacher.empty(); // this line is for clear all items from Teacher dropdown
+                    ddTeacher.append($("<option></option").val("").html("Select Teacher"));
+
+                    // Here I will call Controller Action via Jquery to load Teacher for selected Department
+                    $.ajax({
+                        url: "@Url.Action("GetTeachers", "CourseTeacher")",
+                        type: "GET",
+                        data: { departmentName: departmentName },
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, val) {
+                                ddTeacher.append(
+                                    $("<option></option>").val(val.TeacherEmail).html(val.TeacherName));
+                            });
+                        },
+                        error: function () {
+                            alert("Error int GetTeachers!");
+                        }
+                    });
+
+
+                    var ddCourseCode = $("#CourseTeacherCourseCode");
+                    ddCourseCode.empty(); // this line is for clear all items from CourseCode dropdown
+                    ddCourseCode.append($("<option></option").val("").html("Select Course"));
+
+                    // Here I will call Controller Action via Jquery to load CourseCode for selected Department
+                    $.ajax({
+                        url: "@Url.Action("GetCourseCode", "CourseTeacher")",
+                        type: "GET",
+                        data: { departmentName: departmentName },
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, val) {
+                                ddCourseCode.append(
+                                    $("<option></option>").val(val.CourseCode).html(val.CourseCode)
+        );
+                            });
+                        },
+                        error: function () {
+                            alert("Error GetCourseCode!");
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#CourseTeacherEmail").change(function () {
+                // this will call when Department Dropdown select change
+                var teacherName = $("#CourseTeacherEmail").val();
+                if (teacherName != null) {
+
+
+                    var ddCredit = $("#CourseTeacherCreditToTake");
+                    ddCredit.empty(); // this line is for clear all items from Teacher dropdown
+                    // ddCredit.append($("<option></option").val("").html("Select Teacher"));
+
+                    // Here I will call Controller Action via Jquery to load Teacher for selected Department
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetTeachersCreditToTake", "CourseTeacher")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { teacherName: teacherName },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $("#CourseTeacherCreditToTake").text(data);
+                        },
+                        error: function () {
+                            alert("error GetTeachersCreditToTake !");
+                        }
+
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#CourseTeacherEmail").change(function () {
+                // this will call when Department Dropdown select change
+                var teacherName = $("#CourseTeacherEmail").val();
+                if (teacherName != null) {
+
+
+                    var ddCredit = $("#CourseTeacherRemainingCredit");
+                    ddCredit.empty(); // this line is for clear all items from Teacher dropdown
+                    // ddCredit.append($("<option></option").val("").html("Select Teacher"));
+
+                    // Here I will call Controller Action via Jquery to load Teacher for selected Department
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetTeachersRemainingCredit", "CourseTeacher")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { teacherName: teacherName },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $("#CourseTeacherRemainingCredit").text(data);
+                        },
+                        error: function () {
+                            alert("error GetTeachersRemainingCredit!");
+                        }
+
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#CourseTeacherCourseCode").change(function () {
+                // this will call when Department Dropdown select change
+                var teacherName = $("#CourseTeacherCourseCode").val();
+                if (teacherName != null) {
+
+
+                    var ddCredit = $("#CourseTeacherCourseName");
+                    ddCredit.empty(); // this line is for clear all items from Teacher dropdown
+                    // ddCredit.append($("<option></option").val("").html("Select Teacher"));
+
+                    // Here I will call Controller Action via Jquery to load Teacher for selected Department
+                    $.ajax({
+                        context: this,
+                        url: "@Url.Action("GetCourseName", "CourseTeacher")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { teacherName: teacherName },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $("#CourseTeacherCourseName").text(data);
+                        },
+                        error: function () {
+                            alert("error GetCourseName!");
+                        }
+
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#CourseTeacherCourseCode").change(function () {
+                // this will call when Department Dropdown select change
+                var teacherName = $("#CourseTeacherCourseCode").val();
+                if (teacherName != null) {
+
+
+                    var ddCredit = $("#CourseTeacherCourseCredit");
+                    ddCredit.empty(); // this line is for clear all items from Teacher dropdown
+                    // ddCredit.append($("<option></option").val("").html("Select Teacher"));
+
+                    // Here I will call Controller Action via Jquery to load Teacher for selected Department
+                    $.ajax({
+                        url: "@Url.Action("GetCourseCredit", "CourseTeacher")",
+                        type: 'GET',
+                        dataType: "json",
+                        data: { teacherName: teacherName },
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            $("#CourseTeacherCourseCredit").text(data);
+                        },
+                        error: function () {
+                            alert("error GetCourseCredit!");
+                        }
+
+                    });
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".hideOnClick").click(function () {
+                $("#hideThis").hide();
+            });
+        });
+    </script>
+}
